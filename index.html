@@ -14,143 +14,258 @@
             --border-color: #334155;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
 
-        header {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-bottom: 2px solid var(--border-color);
-            padding: 2rem 1rem;
-            text-align: center;
-        }
+    header {
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border-bottom: 2px solid var(--border-color);
+        padding: 2rem 1rem;
+        text-align: center;
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            color: var(--accent-color);
-        }
+    header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        color: var(--accent-color);
+    }
 
-        header p {
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
+    header p {
+        color: var(--text-muted);
+        margin-top: 0.5rem;
+    }
 
-        .container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
+    /* Menú Principal */
+    nav {
+        background-color: #1e293b;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        padding: 0.75rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-        .section {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
+    nav button {
+        background-color: transparent;
+        color: var(--text-muted);
+        border: none;
+        padding: 0.5rem 1.2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
 
-        h2 {
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            margin-top: 0;
-            color: #60a5fa;
-        }
+    nav button:hover, nav button.active {
+        background-color: var(--accent-color);
+        color: white;
+    }
 
-        .teams-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-            list-style: none;
-            padding: 0;
-        }
+    /* Submenús internos para cada sección */
+    .sub-nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.75rem;
+    }
 
-        .teams-grid li {
-            background-color: #0f172a;
-            padding: 10px;
-            text-align: center;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            font-weight: 600;
-        }
+    .sub-nav button {
+        background-color: #0f172a;
+        color: var(--text-muted);
+        border: 1px solid var(--border-color);
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
 
-        .matchday {
-            margin-bottom: 1.5rem;
-        }
+    .sub-nav button:hover, .sub-nav button.active {
+        background-color: var(--accent-color);
+        color: white;
+        border-color: var(--accent-color);
+    }
 
-        .matchday h3 {
-            background-color: #0f172a;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin: 0 0 10px 0;
-            font-size: 1.1rem;
-        }
+    .container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
 
-        .match-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+    .section-content {
+        display: none;
+    }
 
-        .match-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
+    .section-content.active {
+        display: block;
+    }
 
-        .match-list li:last-child {
-            border-bottom: none;
-        }
+    .sub-section-content {
+        display: none;
+    }
 
-        .date-badge {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
+    .sub-section-content.active {
+        display: block;
+    }
 
-        .alert-box {
-            background: linear-gradient(135deg, #1e3a8a, #1e293b);
-            border-left: 5px solid #3b82f6;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 2rem;
-        }
+    .card {
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
 
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-            margin-top: 3rem;
-        }
-    </style>
-</head>
-<body>
+    h2 {
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 0.5rem;
+        margin-top: 0;
+        color: #60a5fa;
+    }
 
-    <header>⚽ 
-        <h1>Liga de Fútbol Global</h1>
-        <p>Toda la información del mundo real, calendarios y la gran Liga Esqueletos</p>
-    </header>
+    /* Cuadrícula de Selecciones Actuales */
+    .teams-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+        list-style: none;
+        padding: 0;
+        margin-top: 1rem;
+    }
 
-    <div class="container">
+    .teams-grid li {
+        background-color: #0f172a;
+        padding: 12px;
+        text-align: center;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        font-weight: 600;
+        color: #f8fafc;
+    }
 
-        <div class="alert-box">
-            <h3>⚠️ Fechas Clave de la Temporada</h3>
-            <p>• <strong>Inicio de la Liga Regular:</strong> 20 de agosto.<br>
-               • <strong>Inicio de la Liga Esqueletos:</strong> 25 de septiembre (Solo para los 10 mejores clasificados).</p>
-        </div>
+    /* Tabla de Clasificación */
+    .table-container {
+        overflow-x: auto;
+    }
 
-        <div class="section">
-            <h2>🏆 Selecciones Participantes (28 Equipos)</h2>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        margin-top: 1rem;
+    }
+
+    th, td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 0.95rem;
+    }
+
+    th {
+        background-color: #0f172a;
+        color: var(--accent-color);
+        font-weight: 700;
+    }
+
+    tr:hover {
+        background-color: rgba(59, 130, 246, 0.05);
+    }
+
+    /* Jornadas y Partidos */
+    .matchday {
+        margin-bottom: 1.5rem;
+        background-color: #0f172a;
+        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .matchday h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.1rem;
+        color: #60a5fa;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 6px;
+    }
+
+    .match-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .match-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    .match-list li:last-child {
+        border-bottom: none;
+    }
+
+    .date-badge {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .info-message {
+        text-align: center;
+        color: var(--text-muted);
+        padding: 3rem 1rem;
+        font-size: 1.1rem;
+    }
+
+    footer {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-color);
+        margin-top: 3rem;
+    }
+</style>
+
+```
+
+```
+<header>
+    ⚽ <h1>Mundo Fútbol</h1>
+    <p>Selecciones, Ligas Regulares, Ligas Esqueletos y Mundiales</p>
+</header>
+
+<!-- Menú Principal -->
+<nav>
+    <button onclick="switchMainSection('selecciones')" id="btn-selecciones" class="active">Selecciones Actuales</button>
+    <button onclick="switchMainSection('liga')" id="btn-liga">La Liga</button>
+    <button onclick="switchMainSection('liga-esqueletos')" id="btn-liga-esqueletos">Liga Esqueletos</button>
+    <button onclick="switchMainSection('mundiales')" id="btn-mundiales">Mundiales</button>
+</nav>
+
+<div class="container">
+
+    <!-- 1. SECCIÓN: SELECCIONES ACTUALES -->
+    <div id="selecciones" class="section-content active">
+        <div class="card">
+            <h2>📋 Listado Oficial de Selecciones Actuales</h2>
+            <p style="color: var(--text-muted);">Las 28 selecciones oficiales registradas en el universo de la competición:</p>
             <ul class="teams-grid">
                 <li>Lexos</li>
                 <li>Constantel</li>
@@ -182,39 +297,715 @@
                 <li>Lisus</li>
             </ul>
         </div>
-
-        <div class="section">
-            <h2>📅 Calendario - Jornada 1</h2>
-            
-            <div class="matchday">
-                <h3>Partidos con fecha asignada</h3>
-                <ul class="match-list">
-                    <li><span>Lexos vs. Lisus</span> <span class="date-badge">20 de agosto</span></li>
-                    <li><span>Constantel vs. Puerto Caleta</span> <span class="date-badge">20 de agosto</span></li>
-                    <li><span>Neros vs. Isla</span> <span class="date-badge">21 de agosto</span></li>
-                    <li><span>Nalisus vs. Fares</span> <span class="date-badge">21 de agosto</span></li>
-                    <li><span>Biarritz vs. Pelabis</span> <span class="date-badge">22 de agosto</span></li>
-                    <li><span>Arquizu vs. Marinell</span> <span class="date-badge">22 de agosto</span></li>
-                    <li><span>Puerto Gibraltar vs. Punta Isla</span> <span class="date-badge">22 de agosto</span></li>
-                    <li><span>Ilan vs. Atolón</span> <span class="date-badge">22 de agosto</span></li>
-                    <li><span>Archipel vs. Barelia</span> <span class="date-badge">23 de agosto</span></li>
-                    <li><span>Texter vs. Vergel</span> <span class="date-badge">23 de agosto</span></li>
-                    <li><span>Coster vs. Ensurio</span> <span class="date-badge">24 de agosto</span></li>
-                    <li><span>Galisus vs. Celister</span> <span class="date-badge">24 de agosto</span></li>
-                    <li><span>Riveras vs. Pozuelo</span> <span class="date-badge">24 de agosto</span></li>
-                    <li><span>Palafito vs. Pedregal</span> <span class="date-badge">24 de agosto</span></li>
-                </ul>
-            </div>
-            <p style="color: var(--text-muted); font-size: 0.9rem; text-align: center; margin-top: 1rem;">
-                <em>A partir de la Jornada 2, la competición continuará con el formato de un partido por día.</em>
-            </p>
-        </div>
-
     </div>
 
-    <footer>
-        <p>&copy; 2026 Web de Fútbol del Mundo Real. Todos los derechos reservados.</p>
-    </footer>
+    <!-- 2. SECCIÓN: LA LIGA -->
+    <div id="liga" class="section-content">
+        <div class="card">
+            <!-- Mini pestañas internas -->
+            <div class="sub-nav">
+                <button onclick="switchSubSection('liga', 'liga-1')" id="btn-liga-1" class="active">La Liga 1</button>
+            </div>
 
-</body>
-</html>
+            <!-- Contenido de La Liga 1 -->
+            <div id="liga-1" class="sub-section-content active">
+                <h2>🏆 Tabla de Clasificación - La Liga 1</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Equipo</th>
+                                <th>PJ</th>
+                                <th>G</th>
+                                <th>E</th>
+                                <th>P</th>
+                                <th>GF</th>
+                                <th>GC</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Lexos</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>2</td><td>Constantel</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>3</td><td>Neros</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>4</td><td>Nalisus</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>5</td><td>Biarritz</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>6</td><td>Arquizu</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>7</td><td>Puerto Gibraltar</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>8</td><td>Ilan</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>9</td><td>Archipel</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>10</td><td>Texter</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>11</td><td>Coster</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>12</td><td>Galisus</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>13</td><td>Riveras</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>14</td><td>Palafito</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>15</td><td>Pedregal</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>16</td><td>Pozuelo</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>17</td><td>Celister</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>18</td><td>Ensurio</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>19</td><td>Vergel</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>20</td><td>Barelia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>21</td><td>Atolón</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>22</td><td>Punta Isla</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>23</td><td>Marinell</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>24</td><td>Pelabis</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>25</td><td>Fares</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>26</td><td>Isla</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>27</td><td>Puerto Caleta</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>28</td><td>Lisus</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 style="margin-top: 2.5rem;">📅 Todas las Jornadas y Partidos</h2>
+
+                <!-- Jornada 1 -->
+                <div class="matchday">
+                    <h3>Jornada 1</h3>
+                    <ul class="match-list">
+                        <li><span>Lexos vs. Lisus</span> <span class="date-badge">20 de agosto</span></li>
+                        <li><span>Constantel vs. Puerto Caleta</span> <span class="date-badge">20 de agosto</span></li>
+                        <li><span>Neros vs. Isla</span> <span class="date-badge">21 de agosto</span></li>
+                        <li><span>Nalisus vs. Fares</span> <span class="date-badge">21 de agosto</span></li>
+                        <li><span>Biarritz vs. Pelabis</span> <span class="date-badge">22 de agosto</span></li>
+                        <li><span>Arquizu vs. Marinell</span> <span class="date-badge">22 de agosto</span></li>
+                        <li><span>Puerto Gibraltar vs. Punta Isla</span> <span class="date-badge">22 de agosto</span></li>
+                        <li><span>Ilan vs. Atolón</span> <span class="date-badge">22 de agosto</span></li>
+                        <li><span>Archipel vs. Barelia</span> <span class="date-badge">23 de agosto</span></li>
+                        <li><span>Texter vs. Vergel</span> <span class="date-badge">23 de agosto</span></li>
+                        <li><span>Coster vs. Ensurio</span> <span class="date-badge">24 de agosto</span></li>
+                        <li><span>Galisus vs. Celister</span> <span class="date-badge">24 de agosto</span></li>
+                        <li><span>Riveras vs. Pozuelo</span> <span class="date-badge">24 de agosto</span></li>
+                        <li><span>Palafito vs. Pedregal</span> <span class="date-badge">24 de agosto</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 2 -->
+                <div class="matchday">
+                    <h3>Jornada 2</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Pedregal</span></li>
+                        <li><span>Pozuelo vs. Palafito</span></li>
+                        <li><span>Celister vs. Riveras</span></li>
+                        <li><span>Ensurio vs. Galisus</span></li>
+                        <li><span>Vergel vs. Coster</span></li>
+                        <li><span>Barelia vs. Texter</span></li>
+                        <li><span>Atolón vs. Archipel</span></li>
+                        <li><span>Punta Isla vs. Ilan</span></li>
+                        <li><span>Marinell vs. Puerto Gibraltar</span></li>
+                        <li><span>Pelabis vs. Arquizu</span></li>
+                        <li><span>Fares vs. Biarritz</span></li>
+                        <li><span>Isla vs. Nalisus</span></li>
+                        <li><span>Puerto Caleta vs. Neros</span></li>
+                        <li><span>Lexos vs. Constantel</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 3 -->
+                <div class="matchday">
+                    <h3>Jornada 3</h3>
+                    <ul class="match-list">
+                        <li><span>Constantel vs. Lisus</span></li>
+                        <li><span>Neros vs. Lexos</span></li>
+                        <li><span>Nalisus vs. Puerto Caleta</span></li>
+                        <li><span>Biarritz vs. Isla</span></li>
+                        <li><span>Arquizu vs. Fares</span></li>
+                        <li><span>Puerto Gibraltar vs. Pelabis</span></li>
+                        <li><span>Ilan vs. Marinell</span></li>
+                        <li><span>Archipel vs. Punta Isla</span></li>
+                        <li><span>Texter vs. Atolón</span></li>
+                        <li><span>Coster vs. Barelia</span></li>
+                        <li><span>Galisus vs. Vergel</span></li>
+                        <li><span>Riveras vs. Ensurio</span></li>
+                        <li><span>Palafito vs. Celister</span></li>
+                        <li><span>Pedregal vs. Pozuelo</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 4 -->
+                <div class="matchday">
+                    <h3>Jornada 4</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Pozuelo</span></li>
+                        <li><span>Celister vs. Pedregal</span></li>
+                        <li><span>Ensurio vs. Palafito</span></li>
+                        <li><span>Vergel vs. Riveras</span></li>
+                        <li><span>Barelia vs. Galisus</span></li>
+                        <li><span>Atolón vs. Coster</span></li>
+                        <li><span>Punta Isla vs. Texter</span></li>
+                        <li><span>Marinell vs. Archipel</span></li>
+                        <li><span>Pelabis vs. Ilan</span></li>
+                        <li><span>Fares vs. Puerto Gibraltar</span></li>
+                        <li><span>Isla vs. Arquizu</span></li>
+                        <li><span>Puerto Caleta vs. Biarritz</span></li>
+                        <li><span>Lexos vs. Nalisus</span></li>
+                        <li><span>Constantel vs. Neros</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 5 -->
+                <div class="matchday">
+                    <h3>Jornada 5</h3>
+                    <ul class="match-list">
+                        <li><span>Neros vs. Lisus</span></li>
+                        <li><span>Nalisus vs. Constantel</span></li>
+                        <li><span>Biarritz vs. Lexos</span></li>
+                        <li><span>Arquizu vs. Puerto Caleta</span></li>
+                        <li><span>Puerto Gibraltar vs. Isla</span></li>
+                        <li><span>Ilan vs. Fares</span></li>
+                        <li><span>Archipel vs. Pelabis</span></li>
+                        <li><span>Texter vs. Marinell</span></li>
+                        <li><span>Coster vs. Punta Isla</span></li>
+                        <li><span>Galisus vs. Atolón</span></li>
+                        <li><span>Riveras vs. Barelia</span></li>
+                        <li><span>Palafito vs. Vergel</span></li>
+                        <li><span>Pedregal vs. Ensurio</span></li>
+                        <li><span>Pozuelo vs. Celister</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 6 -->
+                <div class="matchday">
+                    <h3>Jornada 6</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Celister</span></li>
+                        <li><span>Ensurio vs. Pozuelo</span></li>
+                        <li><span>Vergel vs. Pedregal</span></li>
+                        <li><span>Barelia vs. Palafito</span></li>
+                        <li><span>Atolón vs. Riveras</span></li>
+                        <li><span>Punta Isla vs. Galisus</span></li>
+                        <li><span>Marinell vs. Coster</span></li>
+                        <li><span>Pelabis vs. Texter</span></li>
+                        <li><span>Fares vs. Archipel</span></li>
+                        <li><span>Isla vs. Ilan</span></li>
+                        <li><span>Puerto Caleta vs. Puerto Gibraltar</span></li>
+                        <li><span>Lexos vs. Arquizu</span></li>
+                        <li><span>Constantel vs. Biarritz</span></li>
+                        <li><span>Neros vs. Nalisus</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 7 -->
+                <div class="matchday">
+                    <h3>Jornada 7</h3>
+                    <ul class="match-list">
+                        <li><span>Nalisus vs. Lisus</span></li>
+                        <li><span>Biarritz vs. Neros</span></li>
+                        <li><span>Arquizu vs. Constantel</span></li>
+                        <li><span>Puerto Gibraltar vs. Lexos</span></li>
+                        <li><span>Ilan vs. Puerto Caleta</span></li>
+                        <li><span>Archipel vs. Isla</span></li>
+                        <li><span>Texter vs. Fares</span></li>
+                        <li><span>Coster vs. Pelabis</span></li>
+                        <li><span>Galisus vs. Marinell</span></li>
+                        <li><span>Riveras vs. Punta Isla</span></li>
+                        <li><span>Palafito vs. Atolón</span></li>
+                        <li><span>Pedregal vs. Barelia</span></li>
+                        <li><span>Pozuelo vs. Vergel</span></li>
+                        <li><span>Celister vs. Ensurio</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 8 -->
+                <div class="matchday">
+                    <h3>Jornada 8</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Ensurio</span></li>
+                        <li><span>Vergel vs. Celister</span></li>
+                        <li><span>Barelia vs. Pozuelo</span></li>
+                        <li><span>Atolón vs. Pedregal</span></li>
+                        <li><span>Punta Isla vs. Palafito</span></li>
+                        <li><span>Marinell vs. Riveras</span></li>
+                        <li><span>Pelabis vs. Galisus</span></li>
+                        <li><span>Fares vs. Coster</span></li>
+                        <li><span>Isla vs. Texter</span></li>
+                        <li><span>Puerto Caleta vs. Archipel</span></li>
+                        <li><span>Lexos vs. Ilan</span></li>
+                        <li><span>Constantel vs. Puerto Gibraltar</span></li>
+                        <li><span>Neros vs. Arquizu</span></li>
+                        <li><span>Nalisus vs. Biarritz</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 9 -->
+                <div class="matchday">
+                    <h3>Jornada 9</h3>
+                    <ul class="match-list">
+                        <li><span>Biarritz vs. Lisus</span></li>
+                        <li><span>Arquizu vs. Nalisus</span></li>
+                        <li><span>Puerto Gibraltar vs. Neros</span></li>
+                        <li><span>Ilan vs. Constantel</span></li>
+                        <li><span>Archipel vs. Lexos</span></li>
+                        <li><span>Texter vs. Puerto Caleta</span></li>
+                        <li><span>Coster vs. Isla</span></li>
+                        <li><span>Galisus vs. Fares</span></li>
+                        <li><span>Riveras vs. Pelabis</span></li>
+                        <li><span>Palafito vs. Marinell</span></li>
+                        <li><span>Pedregal vs. Punta Isla</span></li>
+                        <li><span>Pozuelo vs. Atolón</span></li>
+                        <li><span>Celister vs. Barelia</span></li>
+                        <li><span>Ensurio vs. Vergel</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 10 -->
+                <div class="matchday">
+                    <h3>Jornada 10</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Vergel</span></li>
+                        <li><span>Barelia vs. Ensurio</span></li>
+                        <li><span>Atolón vs. Celister</span></li>
+                        <li><span>Punta Isla vs. Pozuelo</span></li>
+                        <li><span>Marinell vs. Pedregal</span></li>
+                        <li><span>Pelabis vs. Palafito</span></li>
+                        <li><span>Fares vs. Riveras</span></li>
+                        <li><span>Isla vs. Galisus</span></li>
+                        <li><span>Puerto Caleta vs. Coster</span></li>
+                        <li><span>Lexos vs. Texter</span></li>
+                        <li><span>Constantel vs. Archipel</span></li>
+                        <li><span>Neros vs. Ilan</span></li>
+                        <li><span>Nalisus vs. Puerto Gibraltar</span></li>
+                        <li><span>Biarritz vs. Arquizu</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 11 -->
+                <div class="matchday">
+                    <h3>Jornada 11</h3>
+                    <ul class="match-list">
+                        <li><span>Arquizu vs. Lisus</span></li>
+                        <li><span>Puerto Gibraltar vs. Biarritz</span></li>
+                        <li><span>Ilan vs. Nalisus</span></li>
+                        <li><span>Archipel vs. Neros</span></li>
+                        <li><span>Texter vs. Constantel</span></li>
+                        <li><span>Coster vs. Lexos</span></li>
+                        <li><span>Galisus vs. Puerto Caleta</span></li>
+                        <li><span>Riveras vs. Isla</span></li>
+                        <li><span>Palafito vs. Fares</span></li>
+                        <li><span>Pedregal vs. Pelabis</span></li>
+                        <li><span>Pozuelo vs. Marinell</span></li>
+                        <li><span>Celister vs. Punta Isla</span></li>
+                        <li><span>Ensurio vs. Atolón</span></li>
+                        <li><span>Vergel vs. Barelia</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 12 -->
+                <div class="matchday">
+                    <h3>Jornada 12</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Barelia</span></li>
+                        <li><span>Atolón vs. Vergel</span></li>
+                        <li><span>Punta Isla vs. Ensurio</span></li>
+                        <li><span>Marinell vs. Celister</span></li>
+                        <li><span>Pelabis vs. Pozuelo</span></li>
+                        <li><span>Fares vs. Pedregal</span></li>
+                        <li><span>Isla vs. Palafito</span></li>
+                        <li><span>Puerto Caleta vs. Riveras</span></li>
+                        <li><span>Lexos vs. Galisus</span></li>
+                        <li><span>Constantel vs. Coster</span></li>
+                        <li><span>Neros vs. Texter</span></li>
+                        <li><span>Nalisus vs. Archipel</span></li>
+                        <li><span>Biarritz vs. Ilan</span></li>
+                        <li><span>Arquizu vs. Puerto Gibraltar</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 13 -->
+                <div class="matchday">
+                    <h3>Jornada 13</h3>
+                    <ul class="match-list">
+                        <li><span>Puerto Gibraltar vs. Lisus</span></li>
+                        <li><span>Ilan vs. Arquizu</span></li>
+                        <li><span>Archipel vs. Biarritz</span></li>
+                        <li><span>Texter vs. Nalisus</span></li>
+                        <li><span>Coster vs. Neros</span></li>
+                        <li><span>Galisus vs. Constantel</span></li>
+                        <li><span>Riveras vs. Lexos</span></li>
+                        <li><span>Palafito vs. Puerto Caleta</span></li>
+                        <li><span>Pedregal vs. Isla</span></li>
+                        <li><span>Pozuelo vs. Fares</span></li>
+                        <li><span>Celister vs. Pelabis</span></li>
+                        <li><span>Ensurio vs. Marinell</span></li>
+                        <li><span>Vergel vs. Punta Isla</span></li>
+                        <li><span>Barelia vs. Atolón</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 14 -->
+                <div class="matchday">
+                    <h3>Jornada 14</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Atolón</span></li>
+                        <li><span>Punta Isla vs. Barelia</span></li>
+                        <li><span>Marinell vs. Vergel</span></li>
+                        <li><span>Pelabis vs. Ensurio</span></li>
+                        <li><span>Fares vs. Celister</span></li>
+                        <li><span>Isla vs. Pozuelo</span></li>
+                        <li><span>Puerto Caleta vs. Pedregal</span></li>
+                        <li><span>Lexos vs. Palafito</span></li>
+                        <li><span>Constantel vs. Riveras</span></li>
+                        <li><span>Neros vs. Galisus</span></li>
+                        <li><span>Nalisus vs. Coster</span></li>
+                        <li><span>Biarritz vs. Texter</span></li>
+                        <li><span>Arquizu vs. Archipel</span></li>
+                        <li><span>Puerto Gibraltar vs. Ilan</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 15 -->
+                <div class="matchday">
+                    <h3>Jornada 15</h3>
+                    <ul class="match-list">
+                        <li><span>Ilan vs. Lisus</span></li>
+                        <li><span>Archipel vs. Puerto Gibraltar</span></li>
+                        <li><span>Texter vs. Arquizu</span></li>
+                        <li><span>Coster vs. Biarritz</span></li>
+                        <li><span>Galisus vs. Nalisus</span></li>
+                        <li><span>Riveras vs. Neros</span></li>
+                        <li><span>Palafito vs. Constantel</span></li>
+                        <li><span>Pedregal vs. Lexos</span></li>
+                        <li><span>Pozuelo vs. Puerto Caleta</span></li>
+                        <li><span>Celister vs. Isla</span></li>
+                        <li><span>Ensurio vs. Fares</span></li>
+                        <li><span>Vergel vs. Pelabis</span></li>
+                        <li><span>Barelia vs. Marinell</span></li>
+                        <li><span>Atolón vs. Punta Isla</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 16 -->
+                <div class="matchday">
+                    <h3>Jornada 16</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Marinell</span></li>
+                        <li><span>Pelabis vs. Barelia</span></li>
+                        <li><span>Fares vs. Vergel</span></li>
+                        <li><span>Isla vs. Ensurio</span></li>
+                        <li><span>Puerto Caleta vs. Celister</span></li>
+                        <li><span>Lexos vs. Pozuelo</span></li>
+                        <li><span>Constantel vs. Pedregal</span></li>
+                        <li><span>Neros vs. Palafito</span></li>
+                        <li><span>Nalisus vs. Riveras</span></li>
+                        <li><span>Biarritz vs. Galisus</span></li>
+                        <li><span>Arquizu vs. Coster</span></li>
+                        <li><span>Puerto Gibraltar vs. Texter</span></li>
+                        <li><span>Ilan vs. Archipel</span></li>
+                        <li><span>Punta Isla vs. Atolón</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 17 -->
+                <div class="matchday">
+                    <h3>Jornada 17</h3>
+                    <ul class="match-list">
+                        <li><span>Archipel vs. Lisus</span></li>
+                        <li><span>Texter vs. Ilan</span></li>
+                        <li><span>Coster vs. Puerto Gibraltar</span></li>
+                        <li><span>Galisus vs. Arquizu</span></li>
+                        <li><span>Riveras vs. Biarritz</span></li>
+                        <li><span>Palafito vs. Nalisus</span></li>
+                        <li><span>Pedregal vs. Neros</span></li>
+                        <li><span>Pozuelo vs. Constantel</span></li>
+                        <li><span>Celister vs. Lexos</span></li>
+                        <li><span>Ensurio vs. Puerto Caleta</span></li>
+                        <li><span>Vergel vs. Isla</span></li>
+                        <li><span>Barelia vs. Fares</span></li>
+                        <li><span>Atolón vs. Pelabis</span></li>
+                        <li><span>Punta Isla vs. Marinell</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 18 -->
+                <div class="matchday">
+                    <h3>Jornada 18</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Pelabis</span></li>
+                        <li><span>Fares vs. Marinell</span></li>
+                        <li><span>Isla vs. Punta Isla</span></li>
+                        <li><span>Puerto Caleta vs. Atolón</span></li>
+                        <li><span>Lexos vs. Barelia</span></li>
+                        <li><span>Constantel vs. Vergel</span></li>
+                        <li><span>Neros vs. Ensurio</span></li>
+                        <li><span>Nalisus vs. Celister</span></li>
+                        <li><span>Biarritz vs. Pozuelo</span></li>
+                        <li><span>Arquizu vs. Pedregal</span></li>
+                        <li><span>Puerto Gibraltar vs. Palafito</span></li>
+                        <li><span>Ilan vs. Riveras</span></li>
+                        <li><span>Archipel vs. Galisus</span></li>
+                        <li><span>Texter vs. Coster</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 19 -->
+                <div class="matchday">
+                    <h3>Jornada 19</h3>
+                    <ul class="match-list">
+                        <li><span>Coster vs. Lisus</span></li>
+                        <li><span>Galisus vs. Texter</span></li>
+                        <li><span>Riveras vs. Archipel</span></li>
+                        <li><span>Palafito vs. Ilan</span></li>
+                        <li><span>Pedregal vs. Puerto Gibraltar</span></li>
+                        <li><span>Pozuelo vs. Arquizu</span></li>
+                        <li><span>Celister vs. Biarritz</span></li>
+                        <li><span>Ensurio vs. Nalisus</span></li>
+                        <li><span>Vergel vs. Neros</span></li>
+                        <li><span>Barelia vs. Constantel</span></li>
+                        <li><span>Atolón vs. Lexos</span></li>
+                        <li><span>Punta Isla vs. Puerto Caleta</span></li>
+                        <li><span>Marinell vs. Isla</span></li>
+                        <li><span>Pelabis vs. Fares</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 20 -->
+                <div class="matchday">
+                    <h3>Jornada 20</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Fares</span></li>
+                        <li><span>Isla vs. Pelabis</span></li>
+                        <li><span>Puerto Caleta vs. Marinell</span></li>
+                        <li><span>Lexos vs. Punta Isla</span></li>
+                        <li><span>Constantel vs. Atolón</span></li>
+                        <li><span>Neros vs. Barelia</span></li>
+                        <li><span>Nalisus vs. Vergel</span></li>
+                        <li><span>Biarritz vs. Ensurio</span></li>
+                        <li><span>Arquizu vs. Celister</span></li>
+                        <li><span>Puerto Gibraltar vs. Pozuelo</span></li>
+                        <li><span>Ilan vs. Pedregal</span></li>
+                        <li><span>Archipel vs. Palafito</span></li>
+                        <li><span>Texter vs. Riveras</span></li>
+                        <li><span>Coster vs. Galisus</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 21 -->
+                <div class="matchday">
+                    <h3>Jornada 21</h3>
+                    <ul class="match-list">
+                        <li><span>Galisus vs. Lisus</span></li>
+                        <li><span>Riveras vs. Coster</span></li>
+                        <li><span>Palafito vs. Texter</span></li>
+                        <li><span>Pedregal vs. Archipel</span></li>
+                        <li><span>Pozuelo vs. Ilan</span></li>
+                        <li><span>Celister vs. Puerto Gibraltar</span></li>
+                        <li><span>Ensurio vs. Arquizu</span></li>
+                        <li><span>Vergel vs. Biarritz</span></li>
+                        <li><span>Barelia vs. Nalisus</span></li>
+                        <li><span>Atolón vs. Neros</span></li>
+                        <li><span>Punta Isla vs. Constantel</span></li>
+                        <li><span>Marinell vs. Lexos</span></li>
+                        <li><span>Pelabis vs. Puerto Caleta</span></li>
+                        <li><span>Fares vs. Isla</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 22 -->
+                <div class="matchday">
+                    <h3>Jornada 22</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Isla</span></li>
+                        <li><span>Puerto Caleta vs. Fares</span></li>
+                        <li><span>Lexos vs. Pelabis</span></li>
+                        <li><span>Constantel vs. Marinell</span></li>
+                        <li><span>Neros vs. Punta Isla</span></li>
+                        <li><span>Nalisus vs. Atolón</span></li>
+                        <li><span>Biarritz vs. Barelia</span></li>
+                        <li><span>Arquizu vs. Vergel</span></li>
+                        <li><span>Puerto Gibraltar vs. Ensurio</span></li>
+                        <li><span>Ilan vs. Celister</span></li>
+                        <li><span>Archipel vs. Pozuelo</span></li>
+                        <li><span>Texter vs. Pedregal</span></li>
+                        <li><span>Coster vs. Palafito</span></li>
+                        <li><span>Galisus vs. Riveras</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 23 -->
+                <div class="matchday">
+                    <h3>Jornada 23</h3>
+                    <ul class="match-list">
+                        <li><span>Riveras vs. Lisus</span></li>
+                        <li><span>Palafito vs. Galisus</span></li>
+                        <li><span>Pedregal vs. Coster</span></li>
+                        <li><span>Pozuelo vs. Texter</span></li>
+                        <li><span>Celister vs. Archipel</span></li>
+                        <li><span>Ensurio vs. Ilan</span></li>
+                        <li><span>Vergel vs. Puerto Gibraltar</span></li>
+                        <li><span>Barelia vs. Arquizu</span></li>
+                        <li><span>Atolón vs. Biarritz</span></li>
+                        <li><span>Punta Isla vs. Nalisus</span></li>
+                        <li><span>Marinell vs. Neros</span></li>
+                        <li><span>Pelabis vs. Constantel</span></li>
+                        <li><span>Fares vs. Lexos</span></li>
+                        <li><span>Isla vs. Puerto Caleta</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 24 -->
+                <div class="matchday">
+                    <h3>Jornada 24</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Puerto Caleta</span></li>
+                        <li><span>Lexos vs. Isla</span></li>
+                        <li><span>Constantel vs. Fares</span></li>
+                        <li><span>Neros vs. Pelabis</span></li>
+                        <li><span>Nalisus vs. Marinell</span></li>
+                        <li><span>Biarritz vs. Punta Isla</span></li>
+                        <li><span>Arquizu vs. Atolón</span></li>
+                        <li><span>Puerto Gibraltar vs. Barelia</span></li>
+                        <li><span>Ilan vs. Vergel</span></li>
+                        <li><span>Archipel vs. Ensurio</span></li>
+                        <li><span>Texter vs. Celister</span></li>
+                        <li><span>Coster vs. Pozuelo</span></li>
+                        <li><span>Galisus vs. Pedregal</span></li>
+                        <li><span>Riveras vs. Palafito</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 25 -->
+                <div class="matchday">
+                    <h3>Jornada 25</h3>
+                    <ul class="match-list">
+                        <li><span>Palafito vs. Lisus</span></li>
+                        <li><span>Pedregal vs. Riveras</span></li>
+                        <li><span>Pozuelo vs. Galisus</span></li>
+                        <li><span>Celister vs. Coster</span></li>
+                        <li><span>Ensurio vs. Texter</span></li>
+                        <li><span>Vergel vs. Archipel</span></li>
+                        <li><span>Barelia vs. Ilan</span></li>
+                        <li><span>Atolón vs. Puerto Gibraltar</span></li>
+                        <li><span>Punta Isla vs. Arquizu</span></li>
+                        <li><span>Marinell vs. Biarritz</span></li>
+                        <li><span>Pelabis vs. Nalisus</span></li>
+                        <li><span>Fares vs. Neros</span></li>
+                        <li><span>Isla vs. Constantel</span></li>
+                        <li><span>Puerto Caleta vs. Lexos</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 26 -->
+                <div class="matchday">
+                    <h3>Jornada 26</h3>
+                    <ul class="match-list">
+                        <li><span>Lisus vs. Lexos</span></li>
+                        <li><span>Puerto Caleta vs. Constantel</span></li>
+                        <li><span>Isla vs. Neros</span></li>
+                        <li><span>Fares vs. Nalisus</span></li>
+                        <li><span>Pelabis vs. Biarritz</span></li>
+                        <li><span>Marinell vs. Arquizu</span></li>
+                        <li><span>Punta Isla vs. Puerto Gibraltar</span></li>
+                        <li><span>Atolón vs. Ilan</span></li>
+                        <li><span>Barelia vs. Archipel</span></li>
+                        <li><span>Vergel vs. Texter</span></li>
+                        <li><span>Ensurio vs. Coster</span></li>
+                        <li><span>Celister vs. Galisus</span></li>
+                        <li><span>Pozuelo vs. Riveras</span></li>
+                        <li><span>Pedregal vs. Palafito</span></li>
+                    </ul>
+                </div>
+
+                <!-- Jornada 27 -->
+                <div class="matchday">
+                    <h3>Jornada 27</h3>
+                    <ul class="match-list">
+                        <li><span>Pedregal vs. Lisus</span></li>
+                        <li><span>Palafito vs. Pozuelo</span></li>
+                        <li><span>Riveras vs. Celister</span></li>
+                        <li><span>Galisus vs. Ensurio</span></li>
+                        <li><span>Coster vs. Vergel</span></li>
+                        <li><span>Texter vs. Barelia</span></li>
+                        <li><span>Archipel vs. Atolón</span></li>
+                        <li><span>Ilan vs. Punta Isla</span></li>
+                        <li><span>Puerto Gibraltar vs. Marinell</span></li>
+                        <li><span>Arquizu vs. Pelabis</span></li>
+                        <li><span>Biarritz vs. Fares</span></li>
+                        <li><span>Nalisus vs. Isla</span></li>
+                        <li><span>Neros vs. Puerto Caleta</span></li>
+                        <li><span>Constantel vs. Lexos</span></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. SECCIÓN: LIGA ESQUELETOS -->
+    <div id="liga-esqueletos" class="section-content">
+        <div class="card">
+            <!-- Mini pestañas internas -->
+            <div class="sub-nav">
+                <button onclick="switchSubSection('liga-esqueletos', 'esqueletos-1')" id="btn-esqueletos-1" class="active">Liga Esqueletos 1</button>
+            </div>
+
+            <!-- Contenido de Liga Esqueletos 1 -->
+            <div id="esqueletos-1" class="sub-section-content active">
+                <h2>💀 Liga Esqueletos 1</h2>
+                <div class="info-message">
+                    <p>Se necesitan los 10 finalistas de la liga normal.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. SECCIÓN: MUNDIALES -->
+    <div id="mundiales" class="section-content">
+        <div class="card">
+            <!-- Mini pestañas internas -->
+            <div class="sub-nav">
+                <button onclick="switchSubSection('mundiales', 'mundial-1')" id="btn-mundial-1" class="active">Mundial 1</button>
+            </div>
+
+            <!-- Contenido de Mundial 1 -->
+            <div id="mundial-1" class="sub-section-content active">
+                <h2>🌍 Mundial 1</h2>
+                <div class="info-message">
+                    <p>Aún no se ha dado, aún no está vigente el Mundial.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Mundo Fútbol. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Scripts de Navegación -->
+<script>
+    function switchMainSection(sectionId) {
+        // Ocultar todas las secciones principales
+        document.querySelectorAll('.section-content').forEach(section => {
+            section.classList.remove('active');
+        });
+        // Quitar clase active de los botones principales
+        document.querySelectorAll('nav > button').forEach(button => {
+            button.classList.remove('active');
+        });
+        // Mostrar la sección elegida y activar su botón
+        document.getElementById(sectionId).classList.add('active');
+        document.getElementById('btn-' + sectionId).classList.add('active');
+    }
+
+    function switchSubSection(parentSectionId, subSectionId) {
+        const parentElement = document.getElementById(parentSectionId);
+        
+        // Ocultar todas las sub-secciones dentro de esta sección principal
+        parentElement.querySelectorAll('.sub-section-content').forEach(sub => {
+            sub.classList.remove('active');
+        });
+        // Quitar clase active de los botones de la sub-nav correspondiente
+        parentElement.querySelectorAll('.sub-nav button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Activar la sub-sección y su botón
+        document.getElementById(subSectionId).classList.add('active');
+        document.getElementById('btn-' + subSectionId.replace('liga-', 'liga-').replace('esqueletos-', 'esqueletos-').replace('mundial-', 'mundial-')).classList.add('active'); // Ajuste selector de botón
+        event.target.classList.add('active');
+    }
+</script>
+
+```
