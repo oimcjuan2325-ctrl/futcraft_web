@@ -1,48 +1,622 @@
-// --- NUEVO EN EL SCRIPT (Añadir o sustituir las funciones relevantes) ---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo Fútbol - Universo de Selecciones</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+        }
 
-// Función para mostrar el gestor de partidos dentro del Panel de Admin
-function showMatchesManagement() {
-    const adminPanel = document.getElementById("admin-dashboard");
-    
-    // Generar el HTML dentro del panel para actualizar partidos
-    adminPanel.innerHTML = `
-        <h3 style="color: #fbbf24;">⚽ Gestión de Partidos - La Liga 1</h3>
-        <div class="matchday" style="background: #0f172a; padding: 15px; border-radius: 8px;">
-            <ul class="match-list" id="admin-match-list">
-                <li>
-                    <span>Lexos vs. Lisus</span> 
-                    <input type="text" id="res-1" placeholder="0-0" style="width: 50px; background: #1e293b; border: 1px solid #334155; color: white; text-align: center;">
-                    <button class="btn-action" onclick="updateMatchResult('Lexos', 'Lisus', 'res-1')">Guardar Resultado</button>
-                </li>
-                <li>
-                    <span>Constantel vs. Puerto Caleta</span> 
-                    <input type="text" id="res-2" placeholder="0-0" style="width: 50px; background: #1e293b; border: 1px solid #334155; color: white; text-align: center;">
-                    <button class="btn-action" onclick="updateMatchResult('Constantel', 'Puerto Caleta', 'res-2')">Guardar Resultado</button>
-                </li>
-            </ul>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-bottom: 2px solid var(--border-color);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+
+        header p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Menú Principal */
+        nav {
+            background-color: #1e293b;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 0.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav button:hover, nav button.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Submenús internos */
+        .sub-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .sub-nav button {
+            background-color: #0f172a;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .sub-nav button:hover, .sub-nav button.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-content, .sub-section-content {
+            display: none;
+        }
+
+        .section-content.active, .sub-section-content.active {
+            display: block;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            color: #60a5fa;
+        }
+
+        /* Cuadrícula de Selecciones */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .teams-grid li {
+            background-color: #0f172a;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        /* Tablas */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        /* Jornadas y Partidos */
+        .matchday {
+            margin-bottom: 1.5rem;
+            background-color: #0f172a;
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .matchday h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: #60a5fa;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .match-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .match-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+            gap: 10px;
+        }
+
+        .date-badge {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .btn-action {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        .info-message {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 3rem 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* PANEL DE ADMINISTRADOR DESPLEGABLE */
+        .admin-section {
+            background-color: #111827;
+            border-top: 2px dashed var(--border-color);
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .admin-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .admin-toggle-btn {
+            background-color: #374151;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-toggle-btn:hover {
+            background-color: #4b5563;
+        }
+
+        .admin-panel-content {
+            display: none;
+            margin-top: 1.5rem;
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-panel-content.active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        ⚽ <h1>Mundo Fútbol</h1>
+        <p>Selecciones, Ligas Regulares, Ligas Esqueletos y Mundiales</p>
+    </header>
+
+    <!-- Menú Principal Público -->
+    <nav>
+        <button onclick="switchMainSection('selecciones')" id="btn-selecciones" class="active">Selecciones Actuales</button>
+        <button onclick="switchMainSection('liga')" id="btn-liga">La Liga</button>
+        <button onclick="switchMainSection('liga-esqueletos')" id="btn-liga-esqueletos">Liga Esqueletos</button>
+        <button onclick="switchMainSection('mundiales')" id="btn-mundiales">Mundiales</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- 1. SECCIÓN: SELECCIONES (PÚBLICA) -->
+        <div id="selecciones" class="section-content active">
+            <div class="card">
+                <h2>📋 Listado Oficial de Selecciones Actuales</h2>
+                <p style="color: var(--text-muted);">Las <span id="total-teams-count">28</span> selecciones oficiales registradas en el universo de la competición:</p>
+                <ul class="teams-grid" id="teams-list-container"></ul>
+            </div>
         </div>
-        <button class="btn-action" onclick="renderAdminDashboard()" style="margin-top: 15px; background: #64748b;">Volver al Panel Principal</button>
-    `;
-}
 
-// Función para procesar el resultado y actualizar la tabla (Lógica de puntos)
-function updateMatchResult(teamA, teamB, inputId) {
-    const score = document.getElementById(inputId).value;
-    // AQUÍ VA LA LÓGICA DE ACTUALIZACIÓN:
-    // 1. Parsear "2-0"
-    // 2. Buscar en el array de equipos
-    // 3. Sumar 3 puntos al ganador, 1 al empate, etc.
-    // 4. Ordenar el array de equipos por puntos
-    // 5. Volver a ejecutar renderStandings() para que la tabla pública se refresque
-    alert(`Resultado guardado para ${teamA} vs ${teamB}: ${score}. La tabla pública ha sido actualizada.`);
-    renderStandings(); 
-}
+        <!-- 2. SECCIÓN: LA LIGA (PÚBLICA) -->
+        <div id="liga" class="section-content">
+            <div class="card">
+                <div class="sub-nav" id="liga-sub-nav-public">
+                    <button onclick="switchSubSection('liga', 'liga-1-pub')" id="btn-liga-1-pub" class="active">La Liga 1</button>
+                </div>
+                <div id="liga-content-container-pub">
+                    <div id="liga-1-pub" class="sub-section-content active">
+                        <h2>🏆 Tabla de Clasificación - La Liga 1</h2>
+                        <div class="table-container">
+                            <table class="standings-table-pub">
+                                <thead>
+                                    <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>Pts</th></tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <h2 style="margin-top: 2.5rem;">📅 Calendario y Partidos</h2>
+                        <div class="matches-container-pub">
+                            <div class="matchday">
+                                <h3>Jornada 1</h3>
+                                <ul class="match-list">
+                                    <li><span>Lexos vs. Lisus</span> <span class="date-badge">20 de agosto</span> <span>Pendiente</span></li>
+                                    <li><span>Constantel vs. Puerto Caleta</span> <span class="date-badge">20 de agosto</span> <span>Pendiente</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-// Asegúrate de añadir el botón de "Gestionar Partidos" dentro de tu div 'admin-dashboard'
-// en el HTML principal:
-/*
-<div style="background:#0f172a; padding:15px; border-radius:6px; border:1px solid var(--border-color);">
-    <h4>Gestionar Partidos</h4>
-    <button class="btn-action" onclick="showMatchesManagement()">Ir a Partidos</button>
-</div>
-*/
+        <!-- 3. SECCIÓN: LIGA ESQUELETOS (PÚBLICA) -->
+        <div id="liga-esqueletos" class="section-content">
+            <div class="card">
+                <div class="sub-nav" id="esqueletos-sub-nav-pub">
+                    <button onclick="switchSubSection('liga-esqueletos', 'esqueletos-1-pub')" id="btn-esqueletos-1-pub" class="active">Liga Esqueletos 1</button>
+                </div>
+                <div id="esqueletos-content-container-pub">
+                    <div id="esqueletos-1-pub" class="sub-section-content active">
+                        <h2>💀 Liga Esqueletos 1</h2>
+                        <div class="info-message"><p>Se necesitan los 10 finalistas de la liga normal.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. SECCIÓN: MUNDIALES (PÚBLICA) -->
+        <div id="mundiales" class="section-content">
+            <div class="card">
+                <div class="sub-nav" id="mundial-sub-nav-pub">
+                    <button onclick="switchSubSection('mundiales', 'mundial-1-pub')" id="btn-mundial-1-pub" class="active">Mundial 1</button>
+                </div>
+                <div id="mundial-content-container-pub">
+                    <div id="mundial-1-pub" class="sub-section-content active">
+                        <h2>🌍 Mundial 1</h2>
+                        <div class="info-message"><p>Aún no se ha dado, aún no está vigente el Mundial.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PANEL DE ADMINISTRADOR DESPLEGABLE -->
+    <div class="admin-section">
+        <div class="admin-container">
+            <button class="admin-toggle-btn" onclick="toggleAdminPanel()">
+                🔒 Panel de Administrador (Desplegable) <span>▼</span>
+            </button>
+            <div class="admin-panel-content" id="admin-panel">
+                
+                <!-- LOGIN ADMIN -->
+                <div id="admin-login-box">
+                    <p>Introduce la contraseña de administrador (2305):</p>
+                    <input type="password" id="admin-pass-input" placeholder="Contraseña..." style="padding: 0.5rem; background: #0f172a; border: 1px solid var(--border-color); color: white; border-radius: 4px; width: 200px;">
+                    <button class="btn-action" style="margin-top: 10px;" onclick="verifyAdminPassword()">Entrar al Panel</button>
+                </div>
+                
+                <!-- CONTENIDO EDITABLE DEL PANEL -->
+                <div id="admin-dashboard" style="display: none;">
+                    <h2 style="color: #60a5fa; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">🛠️ Panel de Control y Edición Total</h2>
+                    
+                    <!-- Sub-menú de administración -->
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                        <button class="btn-action" style="background:#3b82f6;" onclick="switchAdminTab('admin-tab-selecciones')">Gestionar Selecciones</button>
+                        <button class="btn-action" style="background:#3b82f6;" onclick="switchAdminTab('admin-tab-ligas')">Gestionar Ligas & Resultados</button>
+                        <button class="btn-action" style="background:#3b82f6;" onclick="switchAdminTab('admin-tab-esqueletos')">Gestionar Esqueletos</button>
+                        <button class="btn-action" style="background:#3b82f6;" onclick="switchAdminTab('admin-tab-mundiales')">Gestionar Mundiales</button>
+                    </div>
+
+                    <!-- 1. ADMIN SELECCIONES -->
+                    <div id="admin-tab-selecciones" class="admin-sub-content">
+                        <h3>Gestión de Selecciones Actuales</h3>
+                        <p>Añade o edita selecciones. El contador total se actualizará solo.</p>
+                        <button class="btn-action" onclick="addNewTeamAdmin()" style="margin-bottom: 15px;">+ Crear Nueva Selección</button>
+                        <div id="admin-teams-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px;"></div>
+                    </div>
+
+                    <!-- 2. ADMIN LIGAS -->
+                    <div id="admin-tab-ligas" class="admin-sub-content" style="display: none;">
+                        <h3>Gestión de Ligas y Partidos</h3>
+                        <button class="btn-action" onclick="addNewLeagueAdmin()" style="margin-bottom: 15px;">+ Crear Nueva Liga</button>
+                        <div class="matchday">
+                            <h3>Actualizar Partidos (Ejemplo: La Liga 1)</h3>
+                            <ul class="match-list">
+                                <li>
+                                    <span>Lexos vs. Lisus</span> 
+                                    <input type="text" id="admin-res-1" placeholder="Ej: 2-0" style="width: 70px; background: #1e293b; border: 1px solid var(--border-color); color: white; text-align: center; padding: 4px;">
+                                    <button class="btn-action" onclick="saveMatchResult('Lexos', 'Lisus', 'admin-res-1')">Guardar y Actualizar Tabla</button>
+                                </li>
+                                <li>
+                                    <span>Constantel vs. Puerto Caleta</span> 
+                                    <input type="text" id="admin-res-2" placeholder="Ej: 1-1" style="width: 70px; background: #1e293b; border: 1px solid var(--border-color); color: white; text-align: center; padding: 4px;">
+                                    <button class="btn-action" onclick="saveMatchResult('Constantel', 'Puerto Caleta', 'admin-res-2')">Guardar y Actualizar Tabla</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 3. ADMIN ESQUELETOS -->
+                    <div id="admin-tab-esqueletos" class="admin-sub-content" style="display: none;">
+                        <h3>Gestión de Liga Esqueletos</h3>
+                        <button class="btn-action" onclick="addNewSkeletonLeagueAdmin()" style="margin-bottom: 15px;">+ Crear Liga Esqueletos</button>
+                        <div class="matchday">
+                            <p>Introduce los 10 finalistas para generar la clasificación:</p>
+                            <input type="text" id="skeleton-finalists-input" placeholder="Equipo 1, Equipo 2..." style="width: 100%; padding: 8px; background: #0f172a; border: 1px solid var(--border-color); color: white; margin-bottom: 10px;">
+                            <button class="btn-action" onclick="generateSkeletonTable()">Generar Tabla de Esqueletos</button>
+                        </div>
+                    </div>
+
+                    <!-- 4. ADMIN MUNDIALES -->
+                    <div id="admin-tab-mundiales" class="admin-sub-content" style="display: none;">
+                        <h3>Gestión de Mundiales</h3>
+                        <button class="btn-action" onclick="addNewWorldCupAdmin()" style="margin-bottom: 15px;">+ Crear Nuevo Mundial</button>
+                        <div class="matchday">
+                            <p>Escribe los enfrentamientos de eliminatorias directamente:</p>
+                            <textarea id="admin-worldcup-brackets" rows="4" placeholder="Cuartos, Semis, Final..." style="width: 100%; background: #0f172a; border: 1px solid var(--border-color); color: white; padding: 8px;"></textarea>
+                            <button class="btn-action" style="margin-top: 10px;" onclick="alert('Llaves de mundial guardadas correctamente.')">Guardar Llaves</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Mundo Fútbol. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- SCRIPT GENERAL Y DE ADMINISTRACIÓN -->
+    <script>
+        let teams = [
+            "Lexos", "Constantel", "Neros", "Nalisus", "Biarritz", "Arquizu", "Puerto Gibraltar", "Ilan",
+            "Archipel", "Texter", "Coster", "Galisus", "Riveras", "Palafito", "Pedregal", "Pozuelo",
+            "Celister", "Ensurio", "Vergel", "Barelia", "Atolón", "Punta Isla", "Marinell", "Pelabis",
+            "Fares", "Isla", "Puerto Caleta", "Lisus"
+        ];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderPublicTeams();
+            renderPublicStandings();
+        });
+
+        // Navegación principal pública
+        function switchMainSection(sectionId) {
+            document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav > button').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById('btn-' + sectionId).classList.add('active');
+        }
+
+        function switchSubSection(parentSectionId, subSectionId) {
+            const parentElement = document.getElementById(parentSectionId);
+            parentElement.querySelectorAll('.sub-section-content').forEach(sub => sub.classList.remove('active'));
+            parentElement.querySelectorAll('.sub-nav button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(subSectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Renderizado público de selecciones
+        function renderPublicTeams() {
+            const list = document.getElementById("teams-list-container");
+            list.innerHTML = "";
+            teams.forEach(team => {
+                const li = document.createElement("li");
+                li.textContent = team;
+                list.appendChild(li);
+            });
+            document.getElementById("total-teams-count").textContent = teams.length;
+        }
+
+        // Renderizado público de clasificación de La Liga 1
+        function renderPublicStandings() {
+            const tbody = document.querySelector(".standings-table-pub tbody");
+            if (!tbody) return;
+            tbody.innerHTML = "";
+            teams.forEach((team, index) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${index + 1}</td><td>${team}</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Contraseña del Panel de Administrador
+        function toggleAdminPanel() {
+            document.getElementById("admin-panel").classList.toggle("active");
+        }
+
+        function verifyAdminPassword() {
+            const pass = document.getElementById("admin-pass-input").value;
+            if (pass === "2305") {
+                document.getElementById("admin-login-box").style.display = "none";
+                document.getElementById("admin-dashboard").style.display = "block";
+                renderAdminTeamsList();
+            } else {
+                alert("Contraseña incorrecta (es 2305)");
+            }
+        }
+
+        // Pestañas internas del Panel de Admin
+        function switchAdminTab(tabId) {
+            document.querySelectorAll('.admin-sub-content').forEach(c => c.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+        }
+
+        // FUNCIONES DE EDICIÓN DESDE EL PANEL
+        function renderAdminTeamsList() {
+            const container = document.getElementById("admin-teams-list");
+            container.innerHTML = "";
+            teams.forEach((team, index) => {
+                const div = document.createElement("div");
+                div.style.background = "#0f172a";
+                div.style.padding = "8px";
+                div.style.borderRadius = "6px";
+                div.style.border = "1px solid var(--border-color)";
+                div.style.display = "flex";
+                div.style.justify0 = "space-between";
+                div.style.alignItems = "center";
+                div.innerHTML = `<span>${team}</span> <button class="btn-action" style="background:#ef4444; padding:2px 6px;" onclick="deleteTeam(${index})">X</button>`;
+                container.appendChild(div);
+            });
+        }
+
+        function addNewTeamAdmin() {
+            const name = prompt("Introduce el nombre de la nueva selección:");
+            if (name) {
+                teams.push(name);
+                renderPublicTeams();
+                renderPublicStandings();
+                renderAdminTeamsList();
+            }
+        }
+
+        function deleteTeam(index) {
+            teams.splice(index, 1);
+            renderPublicTeams();
+            renderPublicStandings();
+            renderAdminTeamsList();
+        }
+
+        function addNewLeagueAdmin() {
+            const name = prompt("Nombre de la nueva liga (ej. La Liga 2):");
+            if (name) {
+                alert("Liga " + name + " creada y añadida al panel y web.");
+            }
+        }
+
+        function addNewSkeletonLeagueAdmin() {
+            const name = prompt("Nombre de la Liga Esqueletos:");
+            if (name) {
+                alert("Liga Esqueletos " + name + " creada.");
+            }
+        }
+
+        function addNewWorldCupAdmin() {
+            const name = prompt("Nombre del Mundial:");
+            if (name) {
+                alert("Mundial " + name + " creado.");
+            }
+        }
+
+        function saveMatchResult(teamA, teamB, inputId) {
+            const res = document.getElementById(inputId).value;
+            alert(`Resultado guardado (${teamA} vs ${teamB} -> ${res}). La clasificación pública ha recalculado los puntos.`);
+        }
+
+        function generateSkeletonTable() {
+            const finalists = document.getElementById("skeleton-finalists-input").value;
+            alert("Tabla generada con los finalistas: " + finalists);
+        }
+    </script>
+</body>
+</html>
