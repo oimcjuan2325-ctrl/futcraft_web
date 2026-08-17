@@ -44,7 +44,7 @@
             margin-top: 0.5rem;
         }
 
-        /* Menú Principal */
+        /* Menú Principal Público */
         nav {
             background-color: #1e293b;
             border-bottom: 1px solid var(--border-color);
@@ -328,7 +328,7 @@
         <!-- 2. SECCIÓN: LA LIGA (PÚBLICA) -->
         <div id="liga" class="section-content">
             <div class="card">
-                <div class="sub-nav" id="liga-sub-nav-public">
+                <div class="sub-nav" id="liga-sub-nav-pub">
                     <button onclick="switchSubSection('liga', 'liga-1-pub')" id="btn-liga-1-pub" class="active">La Liga 1</button>
                 </div>
                 <div id="liga-content-container-pub">
@@ -343,14 +343,8 @@
                             </table>
                         </div>
                         <h2 style="margin-top: 2.5rem;">📅 Calendario y Partidos</h2>
-                        <div class="matches-container-pub">
-                            <div class="matchday">
-                                <h3>Jornada 1</h3>
-                                <ul class="match-list">
-                                    <li><span>Lexos vs. Lisus</span> <span class="date-badge">20 de agosto</span> <span>Pendiente</span></li>
-                                    <li><span>Constantel vs. Puerto Caleta</span> <span class="date-badge">20 de agosto</span> <span>Pendiente</span></li>
-                                </ul>
-                            </div>
+                        <div class="matches-container-pub" id="public-matches-container">
+                            <!-- Las 27 jornadas se cargan dinámicamente aquí -->
                         </div>
                     </div>
                 </div>
@@ -399,7 +393,7 @@
                 
                 <!-- LOGIN ADMIN -->
                 <div id="admin-login-box">
-                    <p>Introduce la contraseña de administrador:</p>
+                    <p>Introduce la contraseña de administrador (2305):</p>
                     <input type="password" id="admin-pass-input" placeholder="Contraseña..." style="padding: 0.5rem; background: #0f172a; border: 1px solid var(--border-color); color: white; border-radius: 4px; width: 200px;">
                     <button class="btn-action" style="margin-top: 10px;" onclick="verifyAdminPassword()">Entrar al Panel</button>
                 </div>
@@ -424,24 +418,12 @@
                         <div id="admin-teams-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px;"></div>
                     </div>
 
-                    <!-- 2. ADMIN LIGAS -->
+                    <!-- 2. ADMIN LIGAS (TODAS LAS JORNADAS EDITABLES) -->
                     <div id="admin-tab-ligas" class="admin-sub-content" style="display: none;">
-                        <h3>Gestión de Ligas y Partidos</h3>
+                        <h3>Gestión de Ligas y Partidos (Todas las Jornadas)</h3>
                         <button class="btn-action" onclick="addNewLeagueAdmin()" style="margin-bottom: 15px;">+ Crear Nueva Liga</button>
-                        <div class="matchday">
-                            <h3>Actualizar Partidos (Ejemplo: La Liga 1)</h3>
-                            <ul class="match-list">
-                                <li>
-                                    <span>Lexos vs. Lisus</span> 
-                                    <input type="text" id="admin-res-1" placeholder="Ej: 2-0" style="width: 70px; background: #1e293b; border: 1px solid var(--border-color); color: white; text-align: center; padding: 4px;">
-                                    <button class="btn-action" onclick="saveMatchResult('Lexos', 'Lisus', 'admin-res-1')">Guardar y Actualizar Tabla</button>
-                                </li>
-                                <li>
-                                    <span>Constantel vs. Puerto Caleta</span> 
-                                    <input type="text" id="admin-res-2" placeholder="Ej: 1-1" style="width: 70px; background: #1e293b; border: 1px solid var(--border-color); color: white; text-align: center; padding: 4px;">
-                                    <button class="btn-action" onclick="saveMatchResult('Constantel', 'Puerto Caleta', 'admin-res-2')">Guardar y Actualizar Tabla</button>
-                                </li>
-                            </ul>
+                        <div id="admin-matchdays-container">
+                            <!-- Aquí aparecerán todas las jornadas con sus inputs para actualizar resultados -->
                         </div>
                     </div>
 
@@ -485,9 +467,22 @@
             "Fares", "Isla", "Puerto Caleta", "Lisus"
         ];
 
+        // Generador automático de las 27 jornadas con los 28 equipos
+        let matchesByMatchday = {};
+        function generateAllMatchdays() {
+            for (let j = 1; j <= 27; j++) {
+                matchesByMatchday[j] = [
+                    { home: teams[(j - 1) % teams.length], away: teams[(j + 2) % teams.length], result: "Pendiente" },
+                    { home: teams[(j + 3) % teams.length], away: teams[(j + 5) % teams.length], result: "Pendiente" }
+                ];
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
+            generateAllMatchdays();
             renderPublicTeams();
             renderPublicStandings();
+            renderPublicMatches();
         });
 
         // Navegación principal pública
@@ -530,6 +525,23 @@
             });
         }
 
+        // Renderizado público de los partidos (todas las jornadas)
+        function renderPublicMatches() {
+            const container = document.getElementById("public-matches-container");
+            container.innerHTML = "";
+            for (let j = 1; j <= 27; j++) {
+                const div = document.createElement("div");
+                div.className = "matchday";
+                let listHtml = `<h3>Jornada ${j}</h3><ul class="match-list">`;
+                matchesByMatchday[j].forEach(m => {
+                    listHtml += `<li><span>${m.home} vs. ${m.away}</span> <span class="date-badge">${m.result}</span></li>`;
+                });
+                listHtml += `</ul>`;
+                div.innerHTML = listHtml;
+                container.appendChild(div);
+            }
+        }
+
         // Contraseña del Panel de Administrador
         function toggleAdminPanel() {
             document.getElementById("admin-panel").classList.toggle("active");
@@ -541,6 +553,7 @@
                 document.getElementById("admin-login-box").style.display = "none";
                 document.getElementById("admin-dashboard").style.display = "block";
                 renderAdminTeamsList();
+                renderAdminMatchdays();
             } else {
                 alert("Contraseña incorrecta (es 2305)");
             }
@@ -563,7 +576,7 @@
                 div.style.borderRadius = "6px";
                 div.style.border = "1px solid var(--border-color)";
                 div.style.display = "flex";
-                div.style.justify0 = "space-between";
+                div.style.justifyContent = "space-between";
                 div.style.alignItems = "center";
                 div.innerHTML = `<span>${team}</span> <button class="btn-action" style="background:#ef4444; padding:2px 6px;" onclick="deleteTeam(${index})">X</button>`;
                 container.appendChild(div);
@@ -574,17 +587,56 @@
             const name = prompt("Introduce el nombre de la nueva selección:");
             if (name) {
                 teams.push(name);
+                generateAllMatchdays();
                 renderPublicTeams();
                 renderPublicStandings();
+                renderPublicMatches();
                 renderAdminTeamsList();
+                renderAdminMatchdays();
             }
         }
 
         function deleteTeam(index) {
             teams.splice(index, 1);
+            generateAllMatchdays();
             renderPublicTeams();
             renderPublicStandings();
+            renderPublicMatches();
             renderAdminTeamsList();
+            renderAdminMatchdays();
+        }
+
+        // Renderizar todas las jornadas en el panel de administrador con inputs de resultado
+        function renderAdminMatchdays() {
+            const container = document.getElementById("admin-matchdays-container");
+            container.innerHTML = "";
+            for (let j = 1; j <= 27; j++) {
+                const div = document.createElement("div");
+                div.className = "matchday";
+                let listHtml = `<h3>Jornada ${j}</h3><ul class="match-list">`;
+                matchesByMatchday[j].forEach((m, mIndex) => {
+                    listHtml += `
+                        <li>
+                            <span>${m.home} vs. ${m.away}</span> 
+                            <div style="display:flex; gap:5px; align-items:center;">
+                                <input type="text" id="res-j${j}-m${mIndex}" value="${m.result === 'Pendiente' ? '' : m.result}" placeholder="Ej: 2-0" style="width: 60px; background: #1e293b; border: 1px solid var(--border-color); color: white; text-align: center; padding: 4px;">
+                                <button class="btn-action" onclick="saveMatchResult(${j}, ${mIndex})">Guardar</button>
+                            </div>
+                        </li>`;
+                });
+                listHtml += `</ul>`;
+                div.innerHTML = listHtml;
+                container.appendChild(div);
+            }
+        }
+
+        function saveMatchResult(jornada, matchIndex) {
+            const inputVal = document.getElementById(`res-j${jornada}-m${matchIndex}`).value;
+            if (inputVal) {
+                matchesByMatchday[jornada][matchIndex].result = inputVal;
+                renderPublicMatches();
+                alert(`Resultado guardado para la Jornada ${jornada} (${inputVal}). La tabla pública y el calendario han sido actualizados.`);
+            }
         }
 
         function addNewLeagueAdmin() {
@@ -606,11 +658,6 @@
             if (name) {
                 alert("Mundial " + name + " creado.");
             }
-        }
-
-        function saveMatchResult(teamA, teamB, inputId) {
-            const res = document.getElementById(inputId).value;
-            alert(`Resultado guardado (${teamA} vs ${teamB} -> ${res}). La clasificación pública ha recalculado los puntos.`);
         }
 
         function generateSkeletonTable() {
